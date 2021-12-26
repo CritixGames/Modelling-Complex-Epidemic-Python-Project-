@@ -1,0 +1,72 @@
+"""
+ Modelling a zombie epidemic
+ Version: January 2020
+ Description: Euler solution of zombie SIR model
+"""
+
+#Import packages
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Declare constants
+DT = 0.1 #Time step (in days)
+TFINAL = 60.0 #Total time of simulation (in days)
+ALPHA = 0.005 #Zombie death rate (per 1000 persons per day)
+BETA = 0.0095 #Zombie infection rate (per 1000 zombies per day)
+KAPPA = 1/3. #Latent conversion rate (per day)
+ZETA = 0.15 #Zombie resurrection rate (per day)
+DV = 0.02 #Rate of vaccinated (per day)
+DVZ = 0.005 #Zombie Vaccination Rate (per day)
+DB = 0.1 #Rate of burned dead (per day)
+
+
+
+#Total number of time steps
+N = int((TFINAL/DT))
+
+#Declare arrays
+t = np.empty(N)	#Time (in days)
+S = np.empty(N) #Susceptibles (in thousands)
+L = np.empty(N) #Latents (in thousands)
+Z = np.empty(N) #Zombies (in thousands)
+R = np.empty(N) #Removed (in thousands)
+V = np.empty(N) #Vaccinated (in thousands)
+B = np.empty(N) #Burned (in thousands)
+
+#Iniitial conditions
+t[0] = 0 
+S[0] = 500
+L[0] = 0.001
+Z[0] = 0
+R[0] = 0
+V[0] = 0
+B[0] = 0
+  
+#Euler loop
+i = 1
+while i < N:
+  #Evolve the differential equations
+  S[i] = S[i-1] - BETA * S[i-1] * Z[i-1] * DT - DV * S[i-1] * DT
+  L[i] = L[i-1] + BETA * S[i-1] * Z[i-1] * DT - KAPPA * L[i-1] * DT 
+  Z[i] = Z[i-1] + KAPPA * L[i-1] * DT - ALPHA * S[i-1] * Z[i-1] * DT + ZETA * R[i-1] * DT - Z[i-1] * DVZ * DT
+  R[i] = R[i-1] + ALPHA * S[i-1] * Z[i-1] * DT - ZETA * R[i-1] * DT - R[i-1] * DB * DT 
+  V[i] = V[i-1] + DV * S[i-1] * DT + Z[i-1] * DVZ * DT 
+  B[i] = B[i-1] + R[i-1] * DB * DT
+  #Increase the time and the loop counter by one step
+  t[i] = t[i-1] + DT
+  i += 1
+
+#Plot the arrays
+plt.plot(t,S,label='Susceptible')
+plt.plot(t,L,label='Latent')
+plt.plot(t,Z,label='Zombie')
+plt.plot(t,R,label='Dead')
+plt.plot(t,V,label='Vaccinated')
+plt.plot(t,B,label='Burned')
+
+plt.title('Zombie Outbreak')
+plt.xlabel('Time (days)')
+plt.ylabel('Population (thousands)')
+plt.legend()
+
+plt.show()
