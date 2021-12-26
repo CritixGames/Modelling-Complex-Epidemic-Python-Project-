@@ -1,0 +1,33 @@
+Justifcation of the numerical values: DV (Rate of vaccination):
+
+DV (Rate of vaccination): The vaccination rate is 0.02 which in our sample of 500 people would be about 10 per day. This value is chosen to keep it realistic since it is hard to do anything during a zombie apocalypse (getting ressources, traveling, finding food, defending , etc.)
+and so 10 per day would be an appropriate amount.
+DVZ (Rate of zombie vaccination): since it would be hard to capture and contain a zombie, it was only appropriate to have this number lower than the one of humans. We went with 0.005 which is 1/4 of the value that we chose for humans.
+DB (Rate of Burned dead): Since we must protect our homes, there are for sure going to be zombie bodies around. Out of pure instinct we think that most humans would tend to make a pile of the zombies and burn them to not have them around left and right.
+Secondly, dead bodies that could come to life can easily be burned and become a habit fast for the human population. For these reasons, we chose this value to be 0.1 which is quite high but very appropriate after analysing the circumstances.
+Explanataion of model:
+
+Our model inlcudes 7 variables:
+
+S for sucseptibles: Peoploe who can be infected
+V for Vaccinated: includes vaccinated people and cured zombies. Cannot become susceptible or zombeis again
+L for latents: People who are infected but have not become zombies yet
+Z for Zombies: They are zombies
+R for Removed: Anyone who dies is considered removed removed can become zombies again
+B for burned: If dead bodies are burned they cannot reserec as zombies.
+T for time: How long the zombie epydemic has gone on To start we begin with 500 susceptible people. 
+They convert to Latents By a rate of βSZ. They also go to vaccinated by a rate of S(DV).From latents they turn into zombies at a rate of κL.
+Zombies can be cured by a rate of Z(DVX) or they can be killed by a rate of αSZ. Killed zombies can either be reserected at a rate of ζR or can be burned at a rate of R(DB).
+The formulas are:
+dS/dt = -βSZ -SDV
+dL/dt = βSZ - κL
+dZ/dt = κL - αSZ + ζRT - Z(DVZ)
+dV/dt = S(DV) + Z(DVZ)
+dR = αSZ - ζR - R(DB)
+dB/dt = R(DB)
+model lab jpg.jpg
+
+Conclusion and Graph Analysis: We can see that the Vaccination of Zombies(purple curve) is on top of the Zomvbie curve which shows that humans survive.
+The Zombie curve lowers as the humans start to burn bodies because those burned can't come back to life.
+Since the susceptible people get vaccinated, the latent people slowly decrease. Lastly, because dead corpses are burned, the number of dead decreases.
+Since the Vaccination includes vaccinating Zombies, the vaccination curve is passes the zombie curve the humans will eventually all be vaccinated as well as all the zombies (turning them back into humans and so the human species is SAVED.
